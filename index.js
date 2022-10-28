@@ -26,3 +26,20 @@ itemList.addEventListener("click", (e) => {
     }
   }
 });
+let filter = document.querySelector("#filter");
+
+filter.addEventListener("keyup", (e) => {
+  let text = e.target.value.toUpperCase();
+  let item = document.querySelectorAll("li");
+  console.log(item[0].textContent);
+  item.forEach((element) => {
+    let elementText = element.firstChild.textContent;
+
+    if (elementText.toUpperCase().indexOf(text) != -1) {
+      console.log(elementText.toUpperCase().indexOf(text));
+      element.style.display = "block";
+    } else {
+      element.style.display = "none";
+    }
+  });
+});
