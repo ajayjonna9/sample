@@ -25,4 +25,16 @@ console.log(lielements);
 for (let i = 1; i < lielements.length; i = i + 2) {
   lielements[i].style.backgroundColor = "red";
 }
-
+let parent = document.querySelector("#items");
+console.log(parent.parentNode);
+let ndiv = document.createElement("div");
+ndiv.className = "hello";
+ndiv.id = "hi";
+ndiv.setAttribute("title", "hello");
+let tdiv = document.createTextNode("hello Ajay");
+ndiv.appendChild(tdiv);
+console.log(ndiv);
+let container = document.querySelector("header .container");
+let head1 = document.querySelector("header h1");
+container.append(ndiv);
+//container.insertBefore(ndiv, head1);
