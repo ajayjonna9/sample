@@ -25,30 +25,50 @@ function onSubmit(e) {
     // Remove error after 3 seconds
     setTimeout(() => para.remove(), 3000);
   } else {
-    // Create new list item with user
-    const li = document.createElement("li");
+    let j = 0;
+    let bool = true;
+    for (let i = 0; i < localStorage.length; i++) {
+      let temp = "myobj" + j++;
+      console.log(temp);
+      console.log(JSON.parse(localStorage.getItem(temp)).email);
 
-    // Add text node with input values
-    li.appendChild(
-      document.createTextNode(`${nameInput.value}: ${emailInput.value}`)
-    );
+      if (JSON.parse(localStorage.getItem(temp)).email === emailInput.value) {
+        bool = false;
+        const msg = document.querySelector(".msg");
+        let para = document.createElement("h5");
+        para.appendChild(document.createTextNode("email is already taken"));
+        msg.appendChild(para);
+        //alert("Please enter all fields");
+        para.className = "error";
+        setTimeout(() => para.remove(), 3000);
+      }
+    }
+    if (bool) {
+      // Create new list item with user
+      const li = document.createElement("li");
 
-    // Add HTML
-    // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
+      // Add text node with input values
+      li.appendChild(
+        document.createTextNode(`${nameInput.value}: ${emailInput.value}`)
+      );
 
-    // Append to ul
-    userList.appendChild(li);
-    
-    let myobj = {
-      name: "nameInput.value",
-      email: emailInput.value,
-    };
-    let myObj = JSON.stringify(myobj);
-    localStorage.setItem("myobj", myObj);
+      // Add HTML
+      // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
 
-    console.log(JSON.parse(localStorage.getItem("myobj")));
-    // Clear fields
-    nameInput.value = "";
-    emailInput.value = "";
+      // Append to ul
+      userList.appendChild(li);
+
+      let myobj = {
+        name: nameInput.value,
+        email: emailInput.value,
+      };
+      let a = "myobj" + c++;
+      let myObj = JSON.stringify(myobj);
+      localStorage.setItem(a, myObj);
+
+      console.log(localStorage);
+      // Clear fields
+      nameInput.value = "";
+      emailInput.value = "";
   }
 }
