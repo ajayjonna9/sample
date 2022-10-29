@@ -1,45 +1,46 @@
-let formevent = document.querySelector("#addForm");
-var itemList = document.getElementById("items");
-formevent.addEventListener("submit", (e) => {
+// USER FORM SCRIPT
+
+// Put DOM elements into variables
+const myForm = document.querySelector("#my-form");
+const nameInput = document.querySelector("#name");
+const emailInput = document.querySelector("#email");
+
+const userList = document.querySelector("#users");
+
+// Listen for form submit
+myForm.addEventListener("submit", onSubmit);
+
+function onSubmit(e) {
   e.preventDefault();
-  var newItem = document.getElementById("item");
-  var li = document.createElement("li");
-  li.className = "list-group-item";
-  li.appendChild(document.createTextNode(newItem.value));
-  var deleteBtn = document.createElement("button");
-  deleteBtn.className = "btn btn-danger btn-sm float-right ml-1 delete";
-  deleteBtn.appendChild(document.createTextNode("X"));
-  li.appendChild(deleteBtn);
-  itemList.appendChild(li);
-  let editbtn = document.createElement("button");
-  editbtn.className = "btn btn-primary btn-sm float-right edit";
-  editbtn.appendChild(document.createTextNode("Edit"));
-  li.appendChild(editbtn);
 
-  newItem.value = "";
-});
-itemList.addEventListener("click", (e) => {
-  if (e.target.classList.contains("delete")) {
-    if (confirm("are you sure")) {
-      let temp = e.target.parentElement;
-      itemList.removeChild(temp);
-    }
+  if (nameInput.value === "" || emailInput.value === "") {
+    const msg = document.querySelector(".msg");
+    let para = document.createElement("h5");
+    para.appendChild(document.createTextNode("Please enter all fields"));
+    msg.appendChild(para);
+    //alert("Please enter all fields");
+    para.className = "error";
+    //msg.innerText = "Please enter all fields";
+
+    // Remove error after 3 seconds
+    setTimeout(() => para.remove(), 3000);
+  } else {
+    // Create new list item with user
+    const li = document.createElement("li");
+
+    // Add text node with input values
+    li.appendChild(
+      document.createTextNode(`${nameInput.value}: ${emailInput.value}`)
+    );
+
+    // Add HTML
+    // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
+
+    // Append to ul
+    userList.appendChild(li);
+    localStorage.setItem(nameInput.value, emailInput.value);
+    // Clear fields
+    nameInput.value = "";
+    emailInput.value = "";
   }
-});
-let filter = document.querySelector("#filter");
-
-filter.addEventListener("keyup", (e) => {
-  let text = e.target.value.toUpperCase();
-  let item = document.querySelectorAll("li");
-  console.log(item[0].textContent);
-  item.forEach((element) => {
-    let elementText = element.firstChild.textContent;
-
-    if (elementText.toUpperCase().indexOf(text) != -1) {
-      console.log(elementText.toUpperCase().indexOf(text));
-      element.style.display = "block";
-    } else {
-      element.style.display = "none";
-    }
-  });
-});
+}
