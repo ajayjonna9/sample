@@ -1,18 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
-  axios
-    .get("https://crudcrud.com/api/0777fea550e44d1db52114746573f4b3/data")
-    .then((res) => {
-      console.log(res.data);
-      res.data.forEach((key) => {
-        createElementNode(key.name, key.email);
+userList.addEventListener("click", (e) => {
+  console.log(e.currentTarget);
+  if (e.target.className === "removebtn") {
+    const id = e.target.name;
+    axios
+      .delete(
+        `https://crudcrud.com/api/0777fea550e44d1db52114746573f4b3/data/${id}`
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        document.body.innerHTML = `<h2> ${err}</h2>`;
       });
-    });
-  // var key = Object.keys(localStorage);
+    // let ind = e.target.parentElement.innerText.indexOf(":");
 
-  // key.forEach((key) => {
-  //   let text = JSON.parse(localStorage.getItem(key));
-  //   const li = document.createElement("li");
-  //   createElementNode(text.name, text.email);
-  //   // Add text node with input values
-  // });
-});
+    // let last = e.target.parentElement.innerText.indexOf("\n");
+
+    // let keyEmail = e.target.parentElement.innerText.substring(ind + 2, last);
+    // localStorage.removeItem(keyEmail);
+
+    e.target.parentElement.remove();
+  }
