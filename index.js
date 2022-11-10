@@ -24,10 +24,11 @@ function onSubmit(e) {
 
     // Remove error after 3 seconds
     setTimeout(() => para.remove(), 3000);
-  } else if (localStorage.getItem(emailInput.value) === null) {
-    createElementNode(nameInput.value, emailInput.value);
-    createObject();
+    //(localStorage.getItem(emailInput.value) === null)
   } else {
+    //createElementNode(nameInput.value, emailInput.value);
+    createObject();
+  } /* else {
     let removeEle = document.querySelectorAll("li");
 
     removeEle.forEach((el) => {
@@ -37,7 +38,7 @@ function onSubmit(e) {
     });
     createElementNode(nameInput.value, emailInput.value);
     createObject();
-  }
+  }*/
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -105,9 +106,20 @@ function createObject() {
     name: nameInput.value,
     email: emailInput.value,
   };
-
-  let myObj = JSON.stringify(myobj);
-  localStorage.setItem(myobj.email, myObj);
+  axios
+    .post(
+      "https://crudcrud.com/api/0777fea550e44d1db52114746573f4b3/data",
+      myobj
+    )
+    .then((res) => {
+      console.log(res.data);
+      createElementNode(res.data.name, res.data.email);
+    })
+    .catch((err) => {
+      document.body.innerHTML = `<h2> ${err}</h2>`;
+    });
+  //let myObj = JSON.stringify(myobj);
+  //localStorage.setItem(myobj.email, myObj);
 
   // Clear fields
   nameInput.value = "";
